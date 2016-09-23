@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script>
+		<!--
+		//delete localStorage.theFoodsList;
+		//delete sessionStorage.theFoodsList;
+		var numfooditems;
+		var carbtotal;
+		var glbfoodid;
+		var glbfoodcarb;
+		var glbfoodname;
+		var gblamount
+		var foodArrtxt;
+		var carbtotal;
+		if((sessionStorage.theFoodsList == "") || (sessionStorage.theFoodsList == null))
+			{
+			localStorage.theFoodsList = localStorage.theFoodsList.replace(/"/g, "")
+			localStorage.theFoodsList = localStorage.theFoodsList.replace(/'/g, "")	
+			localStorage.theFoodsList = localStorage.theFoodsList.replace("undefined|---|", "")
+			sessionStorage.theFoodsList = localStorage.theFoodsList;
+			//document.write(sessionStorage.theFoodsList)
+			}
+			//alert("session=" + sessionStorage.theFoodsList)
+			//alert("locale=" + localStorage.theFoodsList)			
+		
+		function delfood(id,foodname,foodcarb)
+		{
+			if(foodname=="showdata")
+			{
+			alert(localStorage.theFoodsList  + sessionStorage.theFoodsList)
+			}
+else
+{			
+		//this builds the variables so we know what we want to delete and then if ok is clicked function del is called
+			glbfoodid = id;
+			glbfoodcarb = foodcarb;
+			glbfoodname = foodname;
+			gblamount = document.getElementById("amount" + id).value;
+			document.getElementById("thefoodname").innerHTML = foodname;
+			document.getElementById("delbar").style.display='block';
+			}
+
+		}
+		
+		function del()
+			{
+				//alert(glbfoodname + "|=|" + glbfoodcarb + "|=|0")
+				//alert(localStorage.theFoodsList.indexOf(glbfoodname + "|=|" + glbfoodcarb + "|=|0"))
+				//alert(localStorage.theFoodsList.indexOf("|---|" + glbfoodname + "|=|" + glbfoodcarb + "|=|0"))
+			//this deletes the fooditem from the list. this needs to be completed
+			if((localStorage.theFoodsList.indexOf(glbfoodname + "|=|" + glbfoodcarb + "|=|0") > -1) && (localStorage.theFoodsList.indexOf("|---|" + glbfoodname + "|=|" + glbfoodcarb + "|=|0")==-1))
+				{
+				//alert("the food list = " + localStorage.theFoodsList)
+				localStorage.theFoodsList=localStorage.theFoodsList.replace(glbfoodname + "|=|" + glbfoodcarb + "|=|0", "");
+				sessionStorage.theFoodsList=sessionStorage.theFoodsList.replace(glbfoodname + "|=|" + glbfoodcarb + "|=|" + gblamount, "");
+				}
+				else
+				{
+				localStorage.theFoodsList=localStorage.theFoodsList.replace("|---|" + glbfoodname + "|=|" + glbfoodcarb + "|=|0", "");
+				sessionStorage.theFoodsList=sessionStorage.theFoodsList.replace("|---|" + glbfoodname + "|=|" + glbfoodcarb + "|=|" + gblamount, "");
+				}
+				/*document.getElementById("amount" + glbfoodid).value="0";
+				document.getElementById("carbcalc" + glbfoodid).value="0";
+				document.getElementById("row" + glbfoodid).style.display='none';
+				
+				calculatetotal();		*/
+				document.getElementById("delbar").style.display='none';		
+				populatelist()
+			}
+		
+		function clo()
+			{
+			//this closes the delete confirm cox
+			document.getElementById("delbar").style.display="none";
+			document.getElementById("clearbar").style.display="none";
+			}
+		
+		function populatelist()
+		{
+		localStorage.theFoodsList = localStorage.theFoodsList.replace("|---||---|", "|---|")
+		sessionStorage.theFoodsList = sessionStorage.theFoodsList.replace("|---||---|", "|---|")
+		localStorage.theFoodsList = localStorage.theFoodsList.replace("|=|00", "|=|0")
+		sessionStorage.theFoodsList = sessionStorage.theFoodsList.replace("|=|00", "|=|0")	
+		localStorage.theFoodsList = localStorage.theFoodsList.replace("|=|000", "|=|0")
+		sessionStorage.theFoodsList = sessionStorage.theFoodsList.replace("|=|000", "|=|0")			
+		if((sessionStorage.theFoodsList == "") || (sessionStorage.theFoodsList == null))
+			{
+			localStorage.theFoodsList = localStorage.theFoodsList.replace("|---||---|", "|---|")
+			localStorage.theFoodsList = localStorage.theFoodsList.replace(/"/g, "")
+			localStorage.theFoodsList = localStorage.theFoodsList.replace(/'/g, "")	
+			localStorage.theFoodsList = localStorage.theFoodsList.replace("undefined|---|", "")
+			sessionStorage.theFoodsList = localStorage.theFoodsList;
+			}	
+
+		//document.write(sessionStorage.theFoodsList + "<br>")
+		//document.write(localStorage.theFoodsList)
+		//alert(sessionStorage.theFoodsList)
+		//this function populates all the fields and labels based upon what is stored in the localestorage variable. once all is set out it calls the calculaate all function to get the total
+		if(sessionStorage.theFoodsList != "")
+			{
+			var foodArr = sessionStorage.theFoodsList.split("|---|").sort();
+			//alert("SORTED")
+			var foodlisttxt;
+			var thisfood;
+			var trclass="";
+			numfooditems = 0;
+			carbtotal = 0;
+			foodlisttxt = "<table width='100%'><tr class=\"header\"><td></td><td>Your Foods</td><td>Carbs per 100g</td><td>Food Weight</td><td>Carbs</td></tr>";
+			for(i=0;i<foodArr.length;i++)
+			{
+				if(foodArr[i] != "undefined" && foodArr[i] != "")
+					{
+					thisfood = foodArr[i].split("|=|")
+					thisamount = thisfood[2];
+					if (thisamount ==0)
+					{
+					thisamount = ""
+					}
+					if(trclass=="")
+						{
+						trclass = " class=\"clrow\"";
+						}
+					else
+						{
+						trclass="";
+						}
+					thisfooditemtxt = thisfood[0]
+					//thisfooditemtxt = thisfooditemtxt.replace("'","\\'")
+					foodlisttxt += "<tr id=\"row" + i + "\"" + trclass + "><td><a href=\"javascript:delfood(" + i + ",'" + thisfooditemtxt + "','" + thisfood[1] + "')\"><img src=\"img/delete.png\" /></a></td><td class=\"foodcell\">" + thisfood[0] + " </td><td class=\"cent\">" + thisfood[1] + "</td><td class=\"cent\"><input id=\"amount" + i + "\"  value=\"" + thisamount+ "\" type='tel' size='3'  onfocus=\"showaddmenu()\" onblur=\"closeaddmenu()\"  onChange=\"updatecarbs(" + i + ",'" + thisfood[0]  + "'," + thisfood[1]  + "," + thisfood[2] + ")\" /><input type=\"hidden\" id=\"foodname" + i + "\" value=\"" + thisfood[0]  + "\" ><input type=\"hidden\" id=\"carbvalue" + i + "\" value=\"" + thisfood[1]  + "\" ><input type=\"hidden\" id=\"carbcalc" + i + "\" value=\"" + ((parseInt(thisfood[1])  / 100) * thisfood[2] ) + "\" ></td><td class=\"cent\"><div id='a" + i + "'>" + ((parseInt(thisfood[1])  / 100) * thisfood[2] ).toFixed(2) + "</div></td></tr>";
+					//foodlisttxt += "<tr><td colspan=5>" + foodArr[i] + "</td></tr>"
+					numfooditems ++;
+					}	
+			}
+			foodlisttxt += "</table>";
+						
+			//alert(foodlisttxt)
+			//alert(sessionStorage.theFoodsList)
+			document.getElementById("content").innerHTML = foodlisttxt;	
+			calculatetotal();
+		//alert(sessionStorage.theFoodsList)
+			}
+		}
+		
+
+		
+		function updatecarbs(id,foodname,carbrate,prevamount) //ok this is the one we're working on
+		{
+		//this function updates the values for a food item and the label is changed with the carb rate. it also adds the carbvale to the carbcalc field for this food item
+		if(document.getElementById("amount" + id).value=="")
+			{newamount = 0}
+		else
+			{newamount = document.getElementById("amount" + id).value}
+		//alert(document.getElementById("amount" + id).value + "," + foodname + "," + carbrate + "," + prevamount)
+		sessionStorage.theFoodsList=sessionStorage.theFoodsList.replace("|---|" + foodname + "|=|" + carbrate + "|=|" + prevamount, "|---|" + foodname + "|=|" + carbrate + "|=|" + newamount);
+		//alert(localStorage.theFoodsList)
+		thisvaluecalc = (carbrate / 100) * newamount;
+		thisvaluecalc = parseFloat(thisvaluecalc.toFixed(2));
+		document.getElementById("a" + id).innerHTML = thisvaluecalc;
+		document.getElementById("carbcalc" + id).value = thisvaluecalc;
+		document.getElementById("amount" + id).value = newamount;
+		calculatetotal();
+		}
+		
+		function calculatetotal()
+		{
+		//this function calculates the total of the carbs on the list based upon the values in the carbcal inputs
+		carbtotal=0;
+		for(t=0;t<=numfooditems-1;t++)
+			{
+			thiscarb = parseFloat(document.getElementById("carbcalc" + t).value);
+			thiscarb = parseFloat(thiscarb.toFixed(2));
+			carbtotal += thiscarb;
+			}
+			carbtotal = parseFloat(carbtotal.toFixed(2)).toString();
+		document.getElementById("carbtotal").innerHTML = carbtotal ;
+		}
+		
+		
+		function clearcarbs()
+		{
+		sessionStorage.theFoodsList = "";
+		populatelist();
+		clo();
+		}
+		
+		function clearmessage()
+		{
+		//this shows the yes no message for clearing the entries
+			document.getElementById("clearbar").style.display='block';
+			
+		}	
+		
+		function addfood()
+		{
+		clo();
+		document.getElementById("bottombar2").style.display='block';
+		document.getElementById("addfood").style.display='block';
+		}
+
+		function addtolist()
+		{
+		//delete localStorage.theFoodsList;
+		//alert(localStorage.theFoodsList);
+		//window.localStorage.clear();
+		var thefood = document.getElementById("foodname").value;
+		thefood = thefood.replace(/"/g,"")
+		thefood = thefood.replace(/'/g,"")
+		var thecarbs = document.getElementById("carbvalue").value;
+		var thegrammes = document.getElementById("gramweight").value
+		//alert(thefood + thecarbs + thegrammes)
+		if((thefood.trim() != "") && (thecarbs.trim() != "") && (thegrammes.trim() != ""))
+			{
+			//alert("hi")
+			var thefullcarbrate = (thecarbs / thegrammes) * 100
+			thefullcarbrate = parseInt(thefullcarbrate);
+			localStorage.theFoodsList += "|---|"  + thefood.trim() + "|=|" +  thefullcarbrate + "|=|0";
+			sessionStorage.theFoodsList += "|---|"  + thefood.trim()+ "|=|" +  thefullcarbrate + "|=|0";
+			}
+				//alert(sessionStorage.theFoodsList)
+			closeaddfood();
+			populatelist();
+		}
+		
+		function showaddmenu()
+		{
+			document.getElementById("bottombar").style.display='none';
+			document.getElementById("addfoodmenu").style.display='block';		
+		}
+		
+			function closeaddmenu()
+		{
+			document.getElementById("bottombar").style.display='block';
+			document.getElementById("addfoodmenu").style.display='none';		
+		}
+		
+		function closeaddfood()
+		{
+			document.getElementById("bottombar2").style.display='none';
+			document.getElementById("addfood").style.display='none';		
+			document.getElementById("foodname").value="";
+			document.getElementById("carbvalue").value="";
+			document.getElementById("gramweight").value="100";		
+		}
+		
+		function showhelp()
+		{
+		clo();
+		document.getElementById("bottombar3").style.display='block';
+		document.getElementById("helpscreen").style.display='block';
+		}
+		
+			function closehelp()
+		{
+			document.getElementById("bottombar3").style.display='none';
+			document.getElementById("helpscreen").style.display='none';	
+		}		
+		
+		
+		//-->
+		</script>
+        <title>Carb Calc Control Panel</title>
+    </head>
+    <body onload="populatelist()">
+		<div id="bottombar">
+		
+			<div><a href="javascript:showhelp()" class="sitebutton">&nbsp;&nbsp;?&nbsp;&nbsp;</a><a href="javascript:clearmessage()" class="sitebutton">CLEAR</a><a href="javascript:addfood()" class="sitebutton">ADD FOOD</a><span  style="font-size:14px;">&nbsp;CARBS TOTAL<span style="text-transform:lowercase;">(g)</span>: <span id="carbtotal" style="font-size:14px;font-weight:bold;">0</span></span></div> 
+		</div>
+<div id="addfoodmenu" style="display:none;" ><a href="javascript:closeaddmenu()" class="sitebutton">Add Food Weight</a></div>		
+<div id="delbar" style="display:none;" >Are you sure you want to delete <span id="thefoodname"></span>?<br /><a href="javascript:del()" class="sitebutton">YES</a><a href="javascript:clo()" class="sitebutton">NO</a></div>	
+<div id="clearbar" style="display:none;" >Are you sure you want to clear all entries?<br /><a href="javascript:clearcarbs()" class="sitebutton">YES</a><a href="javascript:clo()" class="sitebutton">NO</a></div>	
+        <div class="content" id="content">
+        </div>
+		<div id="addfood" style="display:none;">
+			<div id="topbar">Add Food Item</div>
+			<p><input type="text" name="foodname" id="foodname" value="" placeholder="Add The Food Name Here" size=27></p>
+			<p>has a carb value of <input type="tel" id="carbvalue" name="carbvalue" value="" size="6"></p>
+			<p>for every <input type="tel" id="gramweight" name="gramweight" value="100" size="6"> grammes in weight*</p>
+			<p style="font-weight:bold;">Fill in the details above and click on the SAVE button at the bottom to add your food item</p>
+			<p style="font-style:italic;">* 100 Grammes is specified by default, This value can be changed however.</p>
+		</div>
+		<div id="bottombar2" style="display:none">
+			<a href="javascript:addtolist()" class="sitebutton" >SAVE</a><a href="javascript:closeaddfood()" class="sitebutton" >CANCEL</a>
+		</div>	
+		<div id="helpscreen" style="display:none;">
+		<div style="padding-right:20px;padding-bottom:100px;">
+		<p><b>CARB CALC HELP</b></p>
+		<p>Carb Calc provides you with the ability to create your own small database (or food list) of the foods you eat most, and attach a carb value to those foods.</p>
+		<p>Once a food item has been added to your list you can then specify a weight for a portion of that food and get a carb value for it.</p>
+		<p><b>Adding A New Food</b></p>
+		<p>
+		<ul>
+		<li>Press on the "ADD FOOD" button at the bottom of the screen</li>
+		<li>Type in the name of your food in the top text box</li>
+		<li>Add a carb value for the food that you are adding. </li>
+		<li>Set the  weight by which you are basing the carb value. By default this is set at 100g but can be changed if required.</li>
+		<li>Press the "SAVE" button and your food will be added to your list.</li>
+		</ul>
+		</p>
+		<p><b>Getting a Carb Value For Your Foods</b></p>
+		<p>
+		<ul>
+		<li>To get a carb value for a food you need to be viewing your food list</li>
+		<li>Press the text box in the food weight column next to the food item that you want a value for.</li>
+		<li>Add the weight of the portion of the food that your about to eat.</li>
+		<li>Click the "ADD FOOD WEIGHT" button to generate a carb value for that foods portion size.</li>
+		<li>You can add food weights for as many foods as there are in your list.</li>
+		<li>To the right of each food that you have added a value for, the carb value for that weight of food will be displayed - <i>see image below</i></li>
+		<li>At the bottom a total carb value for all foods that have been inputed will be displayed</li>
+		</ul>
+		</p>
+		<p><img src="img/screenshot.png" style="max-width:100%"></p>
+		<p>If you have any any questions or problems with this app can you please contact me on bee@beework.net  with a description of the issue and I'll try to work out what is going wrong</p>
+		</div></div>
+		<div id="bottombar3" style="display:none">
+			<a href="javascript:closehelp()" class="sitebutton" >CLOSE</a>
+		</div>			
+		<div id="local"><br /></div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
