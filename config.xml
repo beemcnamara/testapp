@@ -22,8 +22,7 @@
   <icon src="icon.png"/>
   <access origin="*"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
-  <plugin name="com.cordova.plugins.sms" spec="0.1.1" source="pgb" />
-  <plugin name="com.cordova.plugins.sms" spec="0.1.2" source="pgb" />
+  <plugin name="com.cordova.plugins.sms"  source="pgb" />
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
