@@ -1,6 +1,6 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="net.beework.carbcalc" version="1.0.0">
-  <name>Carb Calc</name>
-  <description>Simple Carbohydrate Calculator.</description>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="net.beework.testapp" version="1.0.0">
+  <name>Test App</name>
+  <description>App to test things out on.</description>
   <author href="http://www.beework.net" email="bee@beework.net">Beework Web Design</author>
   <content src="index.html"/>
   <preference name="permissions" value="none"/>
